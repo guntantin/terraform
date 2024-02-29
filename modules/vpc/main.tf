@@ -1,11 +1,11 @@
 # create vpc
 resource "aws_vpc" "vpc" {
-  cidr_block = var.vpc_cidr
+  cidr_block = var.vpc_cidr["${terraform.workspace}"]
   instance_tenancy = "default"
   enable_dns_hostnames = true
 
   tags = {
-    Name = "${var.project_name}-vpc"
+    Name = "${terraform.workspace}-${var.project_name}-vpc"
   }
 }
 
@@ -14,7 +14,7 @@ resource "aws_internet_gateway" "internet_gateway" {
   vpc_id = aws_vpc.vpc.id
 
   tags = {
-    Name = "${var.project_name}-igw"
+    Name = "${terraform.workspace}-${var.project_name}-igw"
   }
 }
 
@@ -24,24 +24,24 @@ data "aws_availability_zones" "availability_zones" {}
 # create public subnet az1
 resource "aws_subnet" "public_subnet_az1" {
   vpc_id = aws_vpc.vpc.id
-  cidr_block = var.public_subnet_az1_cidr
+  cidr_block = var.public_subnet_az1_cidr["${terraform.workspace}"]
   availability_zone = data.aws_availability_zones.availability_zones.names[0]
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "public_subnet_az1"
+    Name = "${terraform.workspace}-public_subnet_az1"
   }
 }
 
 # create public subnet az2
 resource "aws_subnet" "public_subnet_az2" {
   vpc_id = aws_vpc.vpc.id
-  cidr_block = var.public_subnet_az2_cidr
+  cidr_block = var.public_subnet_az2_cidr["${terraform.workspace}"]
   availability_zone = data.aws_availability_zones.availability_zones.names[1]
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "public_subnet_az2"
+    Name = "${terraform.workspace}-public_subnet_az2"
   }
 }
 
@@ -55,7 +55,7 @@ resource "aws_route_table" "public_route_table" {
   }
 
   tags = {
-    Name = "public_route_table"
+    Name = "${terraform.workspace}-public_route_table"
   }
 }
 
@@ -79,7 +79,7 @@ resource "aws_route_table_association" "public_subnet_az2_rta" {
 #   map_public_ip_on_launch = false
 
 #   tags = {
-#     Name = "private_subnet_az1"
+#     Name = "${terraform.workspace}-private_subnet_az1"
 #   }
 # }
 
@@ -91,6 +91,6 @@ resource "aws_route_table_association" "public_subnet_az2_rta" {
 #   map_public_ip_on_launch = false
 
 #   tags = {
-#     Name = "private_subnet_az2"
+#     Name = "${terraform.workspace}-private_subnet_az2"
 #   }
 # }
