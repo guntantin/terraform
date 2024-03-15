@@ -1,6 +1,6 @@
 resource "aws_launch_template" "node_lt" {
   name          = "${terraform.workspace}-${var.project_name}-LT"
-  image_id      = var.amis["${var.aws_region}"]
+  image_id      = var.amis["${var.region}"]
   instance_type = var.instance_type
   vpc_security_group_ids = [var.inctance_security_group_id,]
   key_name      = aws_key_pair.vm_key.id
@@ -51,8 +51,8 @@ resource "aws_autoscaling_group" "web" {
   }
 
   vpc_zone_identifier = [
-    "${var.subnet_az_a_id}",
-    "${var.subnet_az_b_id}"
+    "${var.public_subnet_az1_id}",
+    "${var.public_subnet_az2_id}"
   ]
 
   lifecycle {
