@@ -4,8 +4,8 @@ resource "aws_lb" "application_lb" {
   internal           = false
   ip_address_type    = "ipv4"
   load_balancer_type = "application"
-  security_groups = [var.alb_security_group_id]
-  subnets = [var.public_subnet_az1_id, var.public_subnet_az2_id]
+  security_groups    = [var.alb_security_group_id]
+  subnets            = [var.public_subnet_az1_id, var.public_subnet_az2_id]
 
   tags = {
     Name = "${terraform.workspace}-${var.project_name}-alb"

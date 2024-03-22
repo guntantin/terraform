@@ -1,9 +1,9 @@
 
 # Creata Securety Group for the application load balancer
 resource "aws_security_group" "alb_security_group" {
-  name = "alb security group"
+  name        = "alb security group"
   description = "enable http and node-app access on port 80/3000"
-  vpc_id = var.vpc_id
+  vpc_id      = var.vpc_id
 
   ingress {
     description = "http access"
@@ -27,9 +27,9 @@ resource "aws_security_group" "alb_security_group" {
 
 # Create security group for the container
 resource "aws_security_group" "inctance_security_group" {
-  name = "inctance security group"
+  name        = "inctance security group"
   description = "enable ssh access on port 22"
-  vpc_id = var.vpc_id
+  vpc_id      = var.vpc_id
 
   ingress {
     description = "ssh access"
