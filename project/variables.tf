@@ -34,6 +34,26 @@ variable "public_subnet_az2_cidr" {
   }
 }
 
+variable "private_subnet_az1_cidr" {
+  description = "Subnet in AZ a"
+  type        = map(string)
+  default = {
+    "dev"   = "13.0.10.0/24",
+    "stage" = "14.0.10.0/24",
+    "prod"  = "15.0.10.0/24"
+  }
+}
+
+variable "private_subnet_az2_cidr" {
+  description = "Subnet in AZ b"
+  type        = map(string)
+  default = {
+    "dev"   = "13.0.11.0/24",
+    "stage" = "14.0.11.0/24",
+    "prod"  = "15.0.11.0/24"
+  }
+}
+
 variable "my_public_ip" {
   type        = string
   description = "My public IP address"
