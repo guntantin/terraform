@@ -52,7 +52,7 @@ resource "aws_subnet" "public_subnet_az2" {
 # create private subnet az1
 resource "aws_subnet" "private_subnet_az1" {
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = var.private_subnet_az1_cidr
+  cidr_block              = var.private_subnet_az1_cidr["${terraform.workspace}"]
   availability_zone       = data.aws_availability_zones.availability_zones.names[0]
   map_public_ip_on_launch = false
 
@@ -66,7 +66,7 @@ resource "aws_subnet" "private_subnet_az1" {
 # create private subnet az2
 resource "aws_subnet" "private_subnet_az2" {
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = var.private_subnet_az2_cidr
+  cidr_block              = var.private_subnet_az2_cidr["${terraform.workspace}"]
   availability_zone       = data.aws_availability_zones.availability_zones.names[1]
   map_public_ip_on_launch = false
 
@@ -100,12 +100,10 @@ resource "aws_nat_gateway" "nat" {
 resource "aws_route_table" "private_route_table" {
   vpc_id = aws_vpc.vpc.id
 
-  route = [
-    {
+  route {
       cidr_block     = "0.0.0.0/0"
       nat_gateway_id = aws_nat_gateway.nat.id
-    },
-  ]
+    }
 
   tags = {
     Name = "${terraform.workspace}-private_route_table"
